@@ -9,13 +9,15 @@ export default function UsersPage(): ReactElement | null {
   }
 
   return (
-    <ul>
-      {users.map(({ username, id }) => (
-        <li>
-          <div>{username}</div>
-          <div>{id}</div>
-        </li>
-      ))}
-    </ul>
+    <div className="Users">
+      <ul>
+        {users.map(({ username, id }) => (
+          <li key={id}>
+            <div>{username}</div>
+            <div>{id}</div>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
