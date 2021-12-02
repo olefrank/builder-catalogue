@@ -8,9 +8,13 @@ export type UseUserFull = {
   error: boolean;
 };
 
-function useUserFull(userId: number): UseUserFull {
+function useUserFull(id?: number | string): UseUserFull {
+  // parse userId as number
+  const userId = Number(id);
+
+  // fetch user by valid userId
   const { data: userData, error: userError } = useSWR<FullUser>(
-    `${baseUrl}/api/user/by-id/${userId}`
+    userId ? `${baseUrl}/api/user/by-id/${userId}` : null
   );
 
   return {

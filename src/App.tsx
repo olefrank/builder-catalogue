@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import { SWRConfig } from "swr";
 import UsersPage from "./pages/users";
-import HomePage from "./pages/home";
+import UserDetailsPage from "./pages/userDetails";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -16,7 +16,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/users" element={<UsersPage />} />
-          <Route path="/" element={<HomePage />} />
+          <Route path="/users/:userId" element={<UserDetailsPage />} />
+          <Route path="*" element={<h1>404 Page not found</h1>} />
         </Routes>
       </Router>
     </SWRConfig>
