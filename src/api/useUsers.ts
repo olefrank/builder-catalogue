@@ -1,16 +1,15 @@
 import useSWR from "swr";
 import { User } from "../models/User";
-
-const baseUrl = "http://localhost:4000";
+import { baseUrl } from "./constants";
 
 export type UseUsers = {
-  users: User[];
+  users: User[] | undefined;
   isLoading: boolean;
   error: boolean;
 };
 
 function useUsers(): UseUsers {
-  const { data, error } = useSWR(`${baseUrl}/api/users`);
+  const { data, error } = useSWR<User[]>(`${baseUrl}/api/users`);
 
   return {
     users: data,

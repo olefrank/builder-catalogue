@@ -2,8 +2,27 @@
   "users": [
     {
       "id": 1,
-      "username": "ole",
-      "inventoryId": 1
+      "username": "brickfan35"
+    }
+  ],
+  "users-summary": [
+    {
+      "id": 1,
+      "username": "brickfan35",
+      "name": "Brick F. Anderson",
+      "age": 35
+    }
+  ],
+  "users-full": [
+    {
+      "id": 1,
+      "username": "brickfan35",
+      "name": "Brick F. Anderson",
+      "age": 35,
+      "inventory": {
+        "id": 1,
+        "pieces": [3, 3, 3, 3, 5, 5, 4]
+      }
     }
   ],
   "colours": [
@@ -58,13 +77,18 @@
   "sets": [
     {
       "id": 1,
+      "name": "tropical-island",
       "pieces": [3, 3, 3, 3, 5, 5, 4]
-    }
-  ],
-  "inventory": [
+    },
     {
-      "id": 1,
-      "pieces": [1, 1, 2, 3, 4, 5, 5, 6]
+      "id": 2,
+      "name": "small-set",
+      "pieces": [3, 3, 5, 4]
+    },
+    {
+      "id": 3,
+      "name": "no-same",
+      "pieces": [1, 2, 3, 4]
     }
   ]
 }
