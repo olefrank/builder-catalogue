@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import useSets from "../../api/useSets";
 import useUserFull from "../../api/useUserFull";
 import { Set } from "../../models/Set";
-import { equalsIgnoreOrder } from "./utils";
+import { inventoryContainsSet } from "./utils";
 
 export default function UserDetailsPage(): ReactElement {
   const { userId } = useParams();
@@ -17,7 +17,7 @@ export default function UserDetailsPage(): ReactElement {
 
   // sets that can be built
   const setsToBuild: Set[] | undefined = sets?.filter((set) =>
-    equalsIgnoreOrder(user.inventory.pieces, set.pieces)
+    inventoryContainsSet(user.inventory.pieceIds.sort(), set.pieceIds.sort())
   );
 
   return (
