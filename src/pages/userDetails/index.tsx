@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import { useParams } from "react-router-dom";
 import useSets from "../../api/useSets";
 import useUserFull from "../../api/useUserFull";
+import Navbar from "../../components/navbar";
 import { Set } from "../../models/Set";
 import { inventoryContainsSet } from "./utils";
 
@@ -21,8 +22,9 @@ export default function UserDetailsPage(): ReactElement {
   );
 
   return (
-    <div className="UserDetails">
-      <h1>{user?.name}</h1>
+    <div>
+      <Navbar />
+      <h2>{user?.name}</h2>
       {setsToBuild ? (
         <>
           <h3>You can build these sets:</h3>

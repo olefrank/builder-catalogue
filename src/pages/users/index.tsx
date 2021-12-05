@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
+import Navbar from "../../components/navbar";
 import useUsers from "../../api/useUsers";
 
 export default function UsersPage(): ReactElement | null {
@@ -10,9 +11,8 @@ export default function UsersPage(): ReactElement | null {
   }
 
   return (
-    <div className="m-10">
-      <img className="h-16 mx-auto" src="/lego-logo-512.png" alt="logo" />
-      <h1>Builder Catalogue Challenge</h1>
+    <div>
+      <Navbar />
       <h2>Users</h2>
       <ul>
         {users.map(({ username, id }) => (
