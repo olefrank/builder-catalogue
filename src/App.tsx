@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import { SWRConfig } from "swr";
 import UsersPage from "./pages/users";
 import UserDetailsPage from "./pages/userDetails";
