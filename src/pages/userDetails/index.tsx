@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import useSets from "../../api/useSets";
 import useUserFull from "../../api/useUserFull";
 import Navbar from "../../components/navbar";
-import { inventoryContainsSet } from "./utils";
+import { inventoryContainsSet, mapNumOccurrences } from "./utils";
 
 export default function UserDetailsPage(): ReactElement {
   const { userId } = useParams();
@@ -17,19 +17,28 @@ export default function UserDetailsPage(): ReactElement {
 
   // sets that can be built
   const setsToBuild = sets?.filter((set) =>
-    inventoryContainsSet(user.inventory.pieceIds.sort(), set.pieceIds.sort())
+    inventoryContainsSet(user.inventory.pieceIds, set.pieceIds)
   );
 
   return (
     <div>
       <Navbar />
       <h2>{user?.name}</h2>
-      {setsToBuild ? (
+      <h3>Pieces in your inventory:</h3>
+      <p>
+        {JSON.stringify(mapNumOccurrences(user.inventory.pieceIds), null, 2)}
+      </p>
+      {setsToBuild && setsToBuild.length > 0 ? (
         <>
           <h3>You can build these sets:</h3>
           <ul>
             {setsToBuild.map((set) => (
-              <li key={set.id}>{set.name}</li>
+              <li key={set.id}>
+                <span className="mr-4">{set.name}</span>
+                <span>
+                  {JSON.stringify(mapNumOccurrences(set.pieceIds), null, 2)}
+                </span>
+              </li>
             ))}
           </ul>
         </>

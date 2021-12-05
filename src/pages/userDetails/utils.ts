@@ -1,42 +1,8 @@
-// /**
-//  * Compares items in two lists
-//  * @param a number[] sorted list
-//  * @param b number[] sorted list
-//  * @returns Boolean, true if arrays are equal
-//  */
-// export function listsAreEqual(a: number[], b: number[]): boolean {
-//   if (a.length !== b.length) {
-//     return false;
-//   }
-
-//   // first occurrence of different values
-//   const different = a.find((value, index) => value !== b[index]);
-
-//   return different === undefined;
-// }
-
-// export function inventoryIncludesSet(
-//   inventory: number[],
-//   set: number[]
-// ): boolean {
-//   // set contains more pieces than inventory has
-//   if (set.length > inventory.length) {
-//     return false;
-//   }
-//   const intersect = listsIntersect(inventory, set);
-//   return Boolean(intersect);
-// }
-
-// export function listsIntersect(a: number[], b: number[]): number[] {
-//   // return a.filter((value) => b.includes(value));
-//   return a.filter((value) => b.includes(value));
-// }
-
 /**
- * Determine if sorted inventory contains all elements of a sorted set
- * @param inventory must be sorted numerically
- * @param set must be sorted numerically
- * @returns Boolean
+ * Determine if inventory contains all pieces in set
+ * @param inventory list of piece id's
+ * @param set list of piece id's
+ * @returns boolean
  */
 export function inventoryContainsSet(
   inventory: number[],
@@ -46,22 +12,53 @@ export function inventoryContainsSet(
     return false;
   }
 
-  let result: number[] = [];
-  let fromIndex = 0;
+  // map keys with number of occurrences
+  const inventoryMap = mapNumOccurrences(inventory);
+  const setMap = mapNumOccurrences(set);
 
-  // iterate set until element not contained in inventory
-  set.some((id) => {
-    fromIndex = inventory.indexOf(id, fromIndex);
+  // diff for each key in set
+  const diffMap = diffSetKeys(inventoryMap, setMap);
 
-    // set element not found in inventory
-    if (fromIndex === -1) {
-      return true;
-    }
+  // find first key in set not present in inventory
+  const missingValue = Object.values(diffMap).find((val: number) => val < 0);
 
-    result.push(inventory[fromIndex]);
-    return false;
-  });
+  return missingValue === undefined;
+}
 
-  // whole set was found in inventory
-  return result.length === set.length;
+/**
+ * Map values in list with how many times the value occurs in list
+ * @param list list of numbers
+ * @returns Record<number, number>
+ */
+export function mapNumOccurrences(list: number[]): Record<number, number> {
+  return list.reduce((acc: Record<number, number>, current) => {
+    const currentValue = acc[current];
+    return {
+      ...acc,
+      [current]: currentValue === undefined ? 1 : currentValue + 1,
+    };
+  }, {});
+}
+
+/**
+ *
+ * @param inventoryMap map of keys in inventory
+ * @param setMap map of keys in set
+ * @returns Record<number, number>
+ */
+export function diffSetKeys(
+  inventoryMap: Record<number, number>,
+  setMap: Record<number, number>
+): Record<number, number> {
+  return Object.keys(setMap).reduce((acc: Record<number, number>, current) => {
+    const inventoryValue = inventoryMap[+current];
+    const setValue = setMap[+current];
+    return {
+      ...acc,
+      [current]:
+        inventoryValue !== undefined
+          ? inventoryValue - setValue
+          : setValue * -1,
+    };
+  }, {});
 }
