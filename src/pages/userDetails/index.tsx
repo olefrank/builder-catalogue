@@ -23,7 +23,12 @@ export default function UserDetailsPage(): ReactElement {
   return (
     <div>
       <Navbar />
-      <h2>{user?.name}</h2>
+      <h2>
+        <span className="mr-2">{user?.name}</span>
+        <span className="text-gray-400 italic font-normal">
+          ({user?.username})
+        </span>
+      </h2>
       <h3>Pieces in your inventory:</h3>
       <p>
         {JSON.stringify(mapNumOccurrences(user.inventory.pieceIds), null, 2)}
