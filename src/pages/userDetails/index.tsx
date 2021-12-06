@@ -40,12 +40,18 @@ export default function UserDetailsPage(): ReactElement {
           <UserInfo user={user} />
         </div>
         <div className="flex flex-row">
-          <div className="card flex-1 mr-4">
-            <SetsToBuild sets={setsToBuild} />
-          </div>
-          <div className="card flex-1">
-            <SetsToCollaborate sets={setsForCollaboration} user={user} />
-          </div>
+          {setsToBuild.length > 0 ? (
+            <div className="card flex-1 mr-4">
+              <h3 className="mt-5">You can build these sets</h3>
+              <SetsToBuild sets={setsToBuild} />
+            </div>
+          ) : null}
+          {setsForCollaboration.length > 0 ? (
+            <div className="card flex-1">
+              <h3 className="mt-5">Build sets with others</h3>
+              <SetsToCollaborate sets={setsForCollaboration} user={user} />
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

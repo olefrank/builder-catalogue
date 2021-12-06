@@ -10,49 +10,39 @@ export type Props = {
   user: FullUser;
 };
 
-export default function SetsToCollaborate({
-  sets,
-  user,
-}: Props): ReactElement | null {
+export default function SetsToCollaborate({ sets, user }: Props): ReactElement {
   const { users } = useUsers();
 
-  if (sets.length === 0) {
-    return null;
-  }
-
   return (
-    <div>
-      <h3 className="mt-5">Build sets with others</h3>
-      <ul>
-        {sets.map((set) => {
-          const missing = missingPieces(user.inventory.pieceIds, set.pieceIds);
-          const usersToCollaborate = getUsersWithPieces(missing, users);
+    <ul>
+      {sets.map((set) => {
+        const missing = missingPieces(user.inventory.pieceIds, set.pieceIds);
+        const usersToCollaborate = getUsersWithPieces(missing, users);
 
-          return (
-            <li key={set.id}>
-              <span className="mr-4 line-through">{set.name}</span>
-              <span className="text-gray-500">
-                Missing {JSON.stringify(missing, null, 2)}
-              </span>
+        return (
+          <li key={set.id}>
+            <div className="mr-4 line-through">{set.name}</div>
+            <div className="text-gray-500">
+              Missing {JSON.stringify(missing, null, 2)}
+            </div>
 
-              {usersToCollaborate.length > 0 ? (
-                <ul>
-                  {usersToCollaborate.map((u: FullUser) =>
-                    u.id !== user.id ? (
-                      <li key={user.id + "id"}>
-                        <span>
-                          <Link to={`/users/${u.id}`}>{u.username}</Link>
-                          {` can help`}
-                        </span>
-                      </li>
-                    ) : null
-                  )}
-                </ul>
-              ) : null}
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+            {usersToCollaborate.length > 0 ? (
+              <ul>
+                {usersToCollaborate.map((u: FullUser) =>
+                  u.id !== user.id ? (
+                    <li key={user.id + "id"}>
+                      <span>
+                        <Link to={`/users/${u.id}`}>{u.username}</Link>
+                        {` can help`}
+                      </span>
+                    </li>
+                  ) : null
+                )}
+              </ul>
+            ) : null}
+          </li>
+        );
+      })}
+    </ul>
   );
 }

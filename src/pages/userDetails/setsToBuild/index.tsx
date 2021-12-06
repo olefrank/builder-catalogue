@@ -5,21 +5,14 @@ export type Props = {
   sets: Set[];
 };
 
-export default function SetsToBuild({ sets }: Props): ReactElement | null {
-  if (sets.length === 0) {
-    return null;
-  }
-
+export default function SetsToBuild({ sets }: Props): ReactElement {
   return (
-    <div>
-      <h3 className="mt-5">You can build these sets</h3>
-      <ul>
-        {sets.map((set) => (
-          <li key={set.id}>
-            <span>{set.name}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul>
+      {sets.map((set) => (
+        <li key={set.id}>
+          <span>{set.name}</span>
+        </li>
+      ))}
+    </ul>
   );
 }
