@@ -1,29 +1,5 @@
-/**
- * Determine if inventory contains all pieces in set
- * @param inventory list of piece id's
- * @param set list of piece id's
- * @returns boolean
- */
-export function inventoryContainsSet(
-  inventory: number[],
-  set: number[]
-): boolean {
-  if (inventory.length < set.length) {
-    return false;
-  }
-
-  // map keys with number of occurrences
-  const inventoryMap = mapNumOccurrences(inventory);
-  const setMap = mapNumOccurrences(set);
-
-  // diff for each key in set
-  const diffMap = diffSetKeys(inventoryMap, setMap);
-
-  // find first key in set not present in inventory
-  const missingValue = Object.values(diffMap).find((val: number) => val < 0);
-
-  return missingValue === undefined;
-}
+import { UseUsers } from "../../api/useUsers";
+import { FullUser } from "../../models/User";
 
 /**
  * Map values in list with how many times the value occurs in list
@@ -61,4 +37,84 @@ export function diffSetKeys(
           : setValue * -1,
     };
   }, {});
+}
+
+/**
+ * Mapped diff of each piece id between two lists of piece ids
+ * @param inventory list of piece ids
+ * @param set list of piece ids
+ * @returns Record<number, number>
+ */
+export function diffInventoryAndSet(
+  inventory: number[],
+  set: number[]
+): Record<number, number> {
+  // map keys with number of occurrences
+  const inventoryMap = mapNumOccurrences(inventory);
+  const setMap = mapNumOccurrences(set);
+
+  // diff for each key in set
+  return diffSetKeys(inventoryMap, setMap);
+}
+
+/**
+ * Determine if inventory contains all pieces in set
+ * @param inventory list of piece id's
+ * @param set list of piece id's
+ * @returns boolean
+ */
+export function inventoryContainsSet(
+  inventory: number[],
+  set: number[]
+): boolean {
+  if (inventory.length < set.length) {
+    return false;
+  }
+
+  // diff for each key in set
+  const diffMap = diffInventoryAndSet(inventory, set);
+
+  // find first key in set not present in inventory
+  const missingValue = Object.values(diffMap).find((val: number) => val < 0);
+
+  return missingValue === undefined;
+}
+
+/**
+ * Mapped missing pieces of set in inventory (piece id / number of missing pieces)
+ * @param inventory list of piece ids
+ * @param set list of piece ids
+ * @returns Record<number, number>
+ */
+export function missingPieces(
+  inventory: number[],
+  set: number[]
+): Record<number, number> {
+  const diff = diffInventoryAndSet(inventory, set);
+
+  return Object.keys(diff).reduce((acc, current) => {
+    return {
+      ...acc,
+      ...(diff[+current] < 0 && { [current]: diff[+current] }),
+    };
+  }, {});
+}
+
+/**
+ * Get list of users that has soem of the specified pieces in their inventory
+ * @param missingPieces map of piece id and number of pieces
+ * @param users list of users
+ * @returns list of users
+ */
+export function getUsersWithPieces(
+  missingPieces: Record<number, number>,
+  users: UseUsers["users"]
+): FullUser[] {
+  return users
+    ? users.filter((user) => {
+        return Object.keys(missingPieces).some((key) =>
+          user.inventory.pieceIds.includes(+key)
+        );
+      })
+    : [];
 }

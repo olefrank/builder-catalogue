@@ -3,11 +3,14 @@ import { useParams } from "react-router-dom";
 import useSets from "../../api/useSets";
 import useUserFull from "../../api/useUserFull";
 import Navbar from "../../components/navbar";
-import { inventoryContainsSet, mapNumOccurrences } from "./utils";
+import { inventoryContainsSet } from "./utils";
+import { Set } from "../../models/Set";
+import UserInfo from "./userInfo";
+import SetsToBuild from "./setsToBuild";
+import SetsToCollaborate from "./setsToCollaborate";
 
 export default function UserDetailsPage(): ReactElement {
   const { userId } = useParams();
-
   const { user } = useUserFull(userId);
   const { sets } = useSets();
 
@@ -15,41 +18,36 @@ export default function UserDetailsPage(): ReactElement {
     return <h1>User not found...</h1>;
   }
 
-  // sets that can be built
-  const setsToBuild = sets?.filter((set) =>
-    inventoryContainsSet(user.inventory.pieceIds, set.pieceIds)
-  );
+  // list of sets user has inventory to build
+  const setsToBuild: Set[] = [];
+
+  // list of sets user doesn't have inventory to build
+  const setsForCollaboration: Set[] = [];
+
+  sets?.forEach((set) => {
+    if (inventoryContainsSet(user.inventory.pieceIds, set.pieceIds)) {
+      setsToBuild.push(set);
+    } else {
+      setsForCollaboration.push(set);
+    }
+  });
 
   return (
     <div>
       <Navbar />
-      <h2>
-        <span className="mr-2">{user?.name}</span>
-        <span className="text-gray-400 italic font-normal">
-          ({user?.username})
-        </span>
-      </h2>
-      <h3>Pieces in your inventory:</h3>
-      <p>
-        {JSON.stringify(mapNumOccurrences(user.inventory.pieceIds), null, 2)}
-      </p>
-      {setsToBuild && setsToBuild.length > 0 ? (
-        <>
-          <h3>You can build these sets:</h3>
-          <ul>
-            {setsToBuild.map((set) => (
-              <li key={set.id}>
-                <span className="mr-4">{set.name}</span>
-                <span>
-                  {JSON.stringify(mapNumOccurrences(set.pieceIds), null, 2)}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </>
-      ) : (
-        <h3>Sorry, you can't build anything... 😔</h3>
-      )}
+      <div className="flex flex-col">
+        <div className="card mb-4">
+          <UserInfo user={user} />
+        </div>
+        <div className="flex flex-row">
+          <div className="card flex-1 mr-4">
+            <SetsToBuild sets={setsToBuild} />
+          </div>
+          <div className="card flex-1">
+            <SetsToCollaborate sets={setsForCollaboration} user={user} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
