@@ -2,40 +2,6 @@
   "users": [
     {
       "id": 1,
-      "username": "brickfan35"
-    },
-    {
-      "id": 2,
-      "username": "youngbrick19"
-    },
-    {
-      "id": 3,
-      "username": "mrnobricks66"
-    }
-  ],
-  "users-summary": [
-    {
-      "id": 1,
-      "username": "brickfan35",
-      "name": "Brick F. Anderson",
-      "age": 35
-    },
-    {
-      "id": 2,
-      "username": "youngbrick19",
-      "name": "Yo Ung Brick",
-      "age": 19
-    },
-    {
-      "id": 3,
-      "username": "mrnobricks66",
-      "name": "No B. Ricks",
-      "age": 66
-    }
-  ],
-  "users-full": [
-    {
-      "id": 1,
       "username": "brickfan35",
       "name": "Brick F. Anderson",
       "age": 35,
@@ -63,6 +29,26 @@
         "id": 3,
         "pieceIds": []
       }
+    }
+  ],
+  "users-summary": [
+    {
+      "id": 1,
+      "username": "brickfan35",
+      "name": "Brick F. Anderson",
+      "age": 35
+    },
+    {
+      "id": 2,
+      "username": "youngbrick19",
+      "name": "Yo Ung Brick",
+      "age": 19
+    },
+    {
+      "id": 3,
+      "username": "mrnobricks66",
+      "name": "No B. Ricks",
+      "age": 66
     }
   ],
   "colours": [
