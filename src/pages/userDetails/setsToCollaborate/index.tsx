@@ -20,7 +20,7 @@ export default function SetsToCollaborate({ sets, user }: Props): ReactElement {
         const usersToCollaborate = getUsersWithPieces(missing, users);
 
         return (
-          <li key={set.id}>
+          <li key={`collaborate-set-${set.id}`}>
             <div className="mr-4 line-through">{set.name}</div>
             <div className="text-gray-500">
               Missing {JSON.stringify(missing, null, 2)}
@@ -30,7 +30,7 @@ export default function SetsToCollaborate({ sets, user }: Props): ReactElement {
               <ul>
                 {usersToCollaborate.map((u: FullUser) =>
                   u.id !== user.id ? (
-                    <li key={user.id + "id"}>
+                    <li key={`collaborate-user-${u.id}`}>
                       <span>
                         <Link to={`/users/${u.id}`}>{u.username}</Link>
                         {` can help`}

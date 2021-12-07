@@ -9,7 +9,7 @@ export default function SetsToBuild({ sets }: Props): ReactElement {
   return (
     <ul>
       {sets.map((set) => (
-        <li key={set.id}>
+        <li key={`set-${set.id}`}>
           <span>{set.name}</span>
         </li>
       ))}
