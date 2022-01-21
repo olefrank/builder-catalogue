@@ -1,6 +1,6 @@
 # Lego Builder Catalogue Challenge
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[See challenge description here](https://d38ft3dyqnj9vm.cloudfront.net/)
 
 ## Available Scripts
 
@@ -20,3 +20,5 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 Runs the API
 Open [http://localhost:4000](http://localhost:4000) to view it in the browser.
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
